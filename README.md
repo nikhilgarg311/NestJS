@@ -93,17 +93,18 @@ How It Works in NestJS
 -You mark a class with @Injectable() so Nest knows it can be provided as a dependency.
 -You request it in a constructor parameter of another class (like a controller or another service).
 -Nest’s IoC (Inversion of Control) container automatically finds and injects the right instance.
+
 ---
 
 ### **9. Difference between @Inject() and constructor injection?**
 - **Constructor Injection**: Automatic resolution by type.
 - **@Inject()**: Explicit token-based resolution.
 
-# **1. Constructor Injection (Implicit Injection)**
+#### **1. Constructor Injection (Implicit Injection)**
 This is the **most common** way to inject dependencies in NestJS.  
 You simply declare a **parameter type** in your constructor, and Nest’s **Dependency Injection container** automatically matches it by **type**.
 
-#### **Example**
+##### **Example**
 ```ts
 @Injectable()
 export class UserService {
@@ -129,7 +130,7 @@ How it works:
 -It injects the instance automatically.
 
 
-# 2. @Inject() (Explicit Injection)
+#### 2. @Inject() (Explicit Injection)
 
 `@Inject()` is used when:
 
@@ -139,7 +140,7 @@ How it works:
 
 ---
 
-### Example with a Custom Token
+#### Example with a Custom Token
 
 ```typescript
 export const DATABASE_CONNECTION = 'DATABASE_CONNECTION';
