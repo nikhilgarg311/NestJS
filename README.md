@@ -89,13 +89,87 @@ findOne(@Param('id') id: string) {}
 ### **8. Explain Dependency Injection in NestJS.**
 DI means classes do not manually create dependencies; they request them via constructor injection.  
 NestJS automatically resolves dependencies from its DI container.
-
+How It Works in NestJS
+-You mark a class with @Injectable() so Nest knows it can be provided as a dependency.
+-You request it in a constructor parameter of another class (like a controller or another service).
+-Nest’s IoC (Inversion of Control) container automatically finds and injects the right instance.
 ---
 
 ### **9. Difference between @Inject() and constructor injection?**
 - **Constructor Injection**: Automatic resolution by type.
 - **@Inject()**: Explicit token-based resolution.
 
+# **1. Constructor Injection (Implicit Injection)**
+This is the **most common** way to inject dependencies in NestJS.  
+You simply declare a **parameter type** in your constructor, and Nest’s **Dependency Injection container** automatically matches it by **type**.
+
+#### **Example**
+```ts
+@Injectable()
+export class UserService {
+  getUser() {
+    return 'John Doe';
+  }
+}
+
+@Controller()
+export class AppController {
+  constructor(private readonly userService: UserService) {} // No @Inject()
+  
+  @Get()
+  getUser() {
+    return this.userService.getUser();
+  }
+}
+```
+
+How it works:
+-Nest sees private readonly userService: UserService in the constructor.
+-It finds a provider registered with the token UserService (the class itself is the token).
+-It injects the instance automatically.
+
+
+# 2. @Inject() (Explicit Injection)
+
+`@Inject()` is used when:
+
+- The dependency does not have a class type (e.g., a constant, string, or symbol).
+- You registered the provider using a custom token.
+- You want to be explicit about which token to resolve.
+
+---
+
+### Example with a Custom Token
+
+```typescript
+export const DATABASE_CONNECTION = 'DATABASE_CONNECTION';
+
+@Module({
+  providers: [
+    {
+      provide: DATABASE_CONNECTION,
+      useValue: { connect: () => 'Connected to DB' },
+    },
+  ],
+})
+export class AppModule {}
+
+@Injectable()
+export class UserService {
+  constructor(
+    @Inject(DATABASE_CONNECTION) private readonly dbConnection: any
+  ) {}
+
+  getStatus() {
+    return this.dbConnection.connect();
+  }
+}
+```
+
+How it works:
+-We manually register a provider with provide: DATABASE_CONNECTION.
+-DATABASE_CONNECTION is not a class, so constructor type-based injection won’t work.
+-We use @Inject(DATABASE_CONNECTION) to tell Nest explicitly which token to resolve.
 ---
 
 ### **10. How to implement middleware in NestJS?**
