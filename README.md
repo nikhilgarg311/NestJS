@@ -187,9 +187,7 @@ It is commonly used for:
 - Modifying request/response objects
 - Performing tasks before the request reaches a controller
 
----
-
-#### **1. Middleware Basics in NestJS**
+#### ** Middleware Basics in NestJS**
 
 - **Runs before guards, interceptors, and pipes** in the request lifecycle.
 - Can access both `req` and `res` objects (like in Express).
@@ -197,9 +195,7 @@ It is commonly used for:
   - End the request-response cycle (e.g., sending a response directly).
   - Or call `next()` to pass control to the next middleware/handler.
 
----
-
-#### **2. Creating a Middleware**
+#### ** Creating a Middleware**
 
 We can create middleware in two ways:
 - **Functional Middleware** → A simple function.
@@ -264,22 +260,16 @@ Guards implement `CanActivate` and decide access, e.g., role-based access.
 - Decide if a given request is allowed to proceed to the route handler.
 - Primarily used for **authorization** and **authentication**.
 
----
-
 ### **Common Use Cases**
 - Checking if a user is logged in.
 - Role-based access control.
 - Permission checks.
-
----
 
 ### **Key Points**
 - Implement the `CanActivate` interface.
 - Run **after middleware**, but **before interceptors and pipes**.
 - Return `true` to allow the request, `false` or throw an exception to block it.
 - Fully integrated with **NestJS Dependency Injection** (can inject services).
-
----
 
 ### **Example**
 ```typescript
@@ -299,8 +289,6 @@ export class AuthGuard implements CanActivate {
 Interceptors in NestJS are special classes that can **intercept** incoming requests **before they reach the route handler**, and/or **outgoing responses** before they are sent to the client.  
 They follow the **Aspect-Oriented Programming (AOP)** pattern, which allows you to **wrap additional behavior** around method execution.
 
----
-
 ##### **Purpose**
 Interceptors are used for:
 - **Logging** → Measure request duration, track incoming and outgoing data.
@@ -308,8 +296,6 @@ Interceptors are used for:
 - **Caching** → Store results of expensive operations and return cached responses.
 - **Error mapping** → Catch errors and transform them into a standardized format.
 - **Additional cross-cutting concerns** → e.g., rate limiting, request/response modification.
-
----
 
 ##### **Key Points**
 - Implement the `NestInterceptor` interface.
@@ -320,8 +306,6 @@ Interceptors are used for:
   - Run **before** the route handler (pre-processing).
   - Run **after** the route handler (post-processing).
 - Support **RxJS Observables** for asynchronous operations and transformation using operators like `map()` and `catchError()`.
-
----
 
 ##### **Basic Example: Logging Interceptor**
 ```typescript
